@@ -1,6 +1,6 @@
 ---
 title: "Gov 50 Final Project"
-author: "Your Name Here"
+author: "Erica Ho"
 description: "My final project"
 output:
   distill::distill_article:
@@ -11,4 +11,4 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data related to...
+I am interested in exploring data related to repression indexes in Singapore. I am taking a class on authoritarianism where I am tasked with conducting a study on Lee Kuan Yew's dictatorship and repression styles. There are several ways to measure repression, such as V-Dem, Polity, or via a binary scale. I would like to compile this data and display it visually using R. 
