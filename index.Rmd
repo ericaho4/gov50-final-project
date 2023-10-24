@@ -16,7 +16,7 @@ I am interested in exploring data related to repression indexes in Singapore. I 
 
 Does incumbency impact a republican representative's likelihood of outwardly denying the 2020 Election results? In this study, I plan determine if there is a correlation between the incumbency of congressional republican representatives and if they deny the 2020 election. I hypothesis that being an incumbent increases the candidates feelings of job security, and are thus more likely to express potentially polarizing view points, such as denying the election. Thus, I expect to find a positive correlation between incumbency on the congressional candidate and election denial. 
 
-To evaluate this data, I plan to filter the data by office to ensure that I am only evaluating candidates for the house of representative. I will also filter by party because only republican candidates denied the election. Eliminating democrats from this study allows me to observe a more specific and relevant portion of the data. I will then ensure that the numbers of representatives from each state are proportionately represented. Lastly, I plot the data to determine if the proportion of incumbents who deny the election is greater than the proportion of non-incumbents who don't outwardly deny the election.
+To evaluate this data, I plan to filter the data by office to ensure that I am only evaluating candidates for the House of Representatives. I will also filter by party because only republican candidates denied the election. Eliminating democrats from this study allows me to observe a more specific and relevant portion of the data. I will then ensure that the numbers of representatives from each state are proportionately represented. Lastly, I plot the data to determine if the proportion of incumbents who deny the election is greater than the proportion of non-incumbents who don't outwardly deny the election.
 
 ```{r}
 library(ggplot2)
@@ -25,14 +25,32 @@ election_deniers_data <- read_csv("fivethirtyeight_election_deniers.csv")
 
 e2 <- election_deniers_data |>
   filter(Office == "Representative")|>
-  ##mutate(definitive_stance = if_else(Stance == "Fully accepted", 1, 0))|>
-  mutate(definitive_stance = case_when(Stance = "Fully accepted" ~ 1,
-                                        Stance = "Fully denied" ~ 1,
-                                        Stance = "Accepted with reservations" ~ 0,
-                                        Stance = "Accepted with reservations" ~ 0))
-## I want to create a "Definitive Stance variable" that I can calculate. How do I convert my categorical variables (Fully Accepted, Fully Denied") to 1, and the others to zero?
-## later on, how to I control geography? Do i have to worry about that now or can I list it as a limitation?
-e2
-```
+  mutate(definitive_stance = case_when(Stance == "Fully accepted" ~ 1,
+                                        Stance == "Fully denied" ~ 1,
+                                        Stance == "Accepted with reservations" ~ 0,
+                                        Stance == "Accepted with reservations" ~  0,
+                                       Stance == "Raised questions" ~0 , 
+                                       Stance == "Avoided answering"~ 0 , 
+                                       Stance == "No comment" ~ 0))
 
+e3 <- e2|>  
+  group_by(Incumbent) |>
+  summarize(mean = mean(definitive_stance)) |>
+  ggplot(aes(x = Incumbent, y = mean)) + geom_col(ylim=c(0,2), fill = "steelblue1") + labs(
+    x = "Incumbent",
+    y = "Percent of Decisive Candidates",
+    title = "Incumbency and outspoken, decisive positioning on 2016 election validity"
+  )
+
+e3
+```
+The above graph shows the relationship between incumbency and likelihood that a representative from the corresponding group had outwardly decisive opinions regarding the validity of the 2016 Election. My hypothesis theorizes that incumbents benefit from a greater sense of job security, which allows them to be outspoken on contentious political topics. Candidates who were not running as an incumbent, did not enjoy such job security, and likely presented less polarizing viewpoints to win the election.
+
+The original data collected six "Stances" that each candidate submitted to various news sources. The "Stances" included: "Fully denied", "Raised questions", "Accepted with reservations", "Fully accepted", "No comment" and "Avoided answering". I coded these six responses into two categories: decisive and non-decisive. The responses "Fully denied" and "Fully accepted" were coded as decisive, while the other four responses were coded as indecisive. 
+
+Decisiveness was assigned code equal to 1, which indecisive was assigned code equal to 0. To create the plot, I grouped the data by Incumbency and definitive_stance, which contained by 1/0 code, and plotted the mean of the sum of the definitive_stance column on the y access for each incumbent group. The incumbents did appear to have a greater proportion of candidates who had definitive opinions regarding the 2016 election, as I hypothesized. However, confounding variables such as geography and the uncontrolled size of each group prevent 
+
+```{r}
+unique(election_deniers_data$Stance)
+```
 
