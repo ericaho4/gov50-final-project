@@ -44,6 +44,8 @@ e3 <- e2|>
 
 e3
 ```
+## Graph Explanation and Analysis 
+
 The above graph shows the relationship between incumbency and likelihood that a representative from the corresponding group had outwardly decisive opinions regarding the validity of the 2016 Election. My hypothesis theorizes that incumbents benefit from a greater sense of job security, which allows them to be outspoken on contentious political topics. Candidates who were not running as an incumbent, did not enjoy such job security, and likely presented less polarizing viewpoints to win the election.
 
 The original data collected six "Stances" that each candidate submitted to various news sources. The "Stances" included: "Fully denied", "Raised questions", "Accepted with reservations", "Fully accepted", "No comment" and "Avoided answering". I coded these six responses into two categories: decisive and non-decisive. The responses "Fully denied" and "Fully accepted" were coded as decisive, while the other four responses were coded as indecisive. 
