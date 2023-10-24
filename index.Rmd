@@ -48,7 +48,7 @@ The above graph shows the relationship between incumbency and likelihood that a 
 
 The original data collected six "Stances" that each candidate submitted to various news sources. The "Stances" included: "Fully denied", "Raised questions", "Accepted with reservations", "Fully accepted", "No comment" and "Avoided answering". I coded these six responses into two categories: decisive and non-decisive. The responses "Fully denied" and "Fully accepted" were coded as decisive, while the other four responses were coded as indecisive. 
 
-Decisiveness was assigned code equal to 1, which indecisive was assigned code equal to 0. To create the plot, I grouped the data by Incumbency and definitive_stance, which contained by 1/0 code, and plotted the mean of the sum of the definitive_stance column on the y access for each incumbent group. The incumbents did appear to have a greater proportion of candidates who had definitive opinions regarding the 2016 election, as I hypothesized. However, confounding variables such as geography and the uncontrolled size of each group prevent 
+Decisiveness was assigned code equal to 1, which indecisive was assigned code equal to 0. To create the plot, I grouped the data by Incumbency and definitive_stance, which contained by 1/0 code, and plotted the mean of the sum of the definitive_stance column on the y access for each incumbent group. The incumbents did appear to have a greater proportion of candidates who had definitive opinions regarding the 2016 election, as I hypothesized. However, confounding variables such as geography and the uncontrolled sample size inhibit concluding causality. 
 
 ```{r}
 unique(election_deniers_data$Stance)
