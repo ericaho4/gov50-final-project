@@ -36,11 +36,11 @@ e2 <- election_deniers_data |>
 e3 <- e2|>  
   group_by(Incumbent) |>
   summarize(mean = mean(definitive_stance)) |>
-  ggplot(aes(x = Incumbent, y = mean)) + geom_col(ylim=c(0,2), fill = "steelblue1") + labs(
+  ggplot(aes(x = Incumbent, y = mean)) + geom_col(fill = "steelblue1") + labs(
     x = "Incumbent",
-    y = "Percent of Decisive Candidates",
-    title = "Incumbency and outspoken, decisive positioning on 2016 election validity"
-  )
+    y = "Proportion of Decisive Candidates",
+    title = "Incumbency and decisiveness on the validity of the 2016 election"
+  ) + ylim(0,1)
 
 e3
 ```
