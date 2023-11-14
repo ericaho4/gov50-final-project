@@ -16,7 +16,7 @@ I am interested in exploring data related to repression indexes in Singapore. I 
 
 Does incumbency impact a republican representative's likelihood of outwardly denying the 2020 Election results? In this study, I plan determine if there is a correlation between the incumbency of congressional republican representatives and if they deny the 2020 election. I hypothesis that being an incumbent increases the candidates feelings of job security, and are thus more likely to express potentially polarizing view points, such as denying the election. Thus, I expect to find a positive correlation between incumbency on the congressional candidate and election denial. 
 
-To evaluate this data, I plan to filter the data by office to ensure that I am only evaluating candidates for the House of Representatives. I will also filter by party because only republican candidates denied the election. Eliminating democrats from this study allows me to observe a more specific and relevant portion of the data. I will then ensure that the numbers of representatives from each state are proportionately represented. Lastly, I plot the data to determine if the proportion of incumbents who deny the election is greater than the proportion of non-incumbents who don't outwardly deny the election.
+To begin this project, I plan to filter the data by office to ensure that I am only evaluating candidates for the House of Representatives. I will also filter by party to ensure that I am only evaluating republican candidates. Eliminating democrats from this study allows me to observe a more specific and relevant portion of the data. Lastly, I plot the data to determine if the proportion of incumbents who deny the election is greater than the proportion of non-incumbents who don't outwardly deny the election.
 
 ```{r}
 library(ggplot2)
@@ -35,8 +35,8 @@ e2 <- election_deniers_data |>
 
 e3 <- e2|>  
   group_by(Incumbent) |>
-  summarize(mean = mean(definitive_stance)) |>
-  ggplot(aes(x = Incumbent, y = mean)) + geom_col(fill = "steelblue1") + labs(
+  summarize(stance_mean = mean(definitive_stance)) |>
+  ggplot(aes(x = Incumbent, y = stance_mean)) + geom_col(fill = "steelblue1") + labs(
     x = "Incumbent",
     y = "Proportion of Decisive Candidates",
     title = "Incumbency and decisiveness on the validity of the 2016 election"
@@ -46,7 +46,7 @@ e3
 ```
 ## Graph Explanation and Analysis 
 
-The above graph shows the relationship between incumbency and likelihood that a representative from the corresponding group had outwardly decisive opinions regarding the validity of the 2016 Election. My hypothesis theorizes that incumbents benefit from a greater sense of job security, which allows them to be outspoken on contentious political topics. Candidates who were not running as an incumbent, did not enjoy such job security, and likely presented less polarizing viewpoints to win the election.
+The above graph shows the relationship between incumbency and likelihood that a congressional representative had outwardly decisive opinions regarding the validity of the 2016 Election. My hypothesis theorizes that incumbents benefit from a greater sense of job security, which allows them to be outspoken on contentious political topics. Candidates who were not running as an incumbent did not enjoy such job security, and likely presented less polarizing viewpoints to win the election.
 
 The original data collected six "Stances" that each candidate submitted to various news sources. The "Stances" included: "Fully denied", "Raised questions", "Accepted with reservations", "Fully accepted", "No comment" and "Avoided answering". I coded these six responses into two categories: decisive and non-decisive. The responses "Fully denied" and "Fully accepted" were coded as decisive, while the other four responses were coded as indecisive. 
 
@@ -55,4 +55,52 @@ Decisiveness was assigned code equal to 1, which indecisive was assigned code eq
 ```{r}
 unique(election_deniers_data$Stance)
 ```
+
+
+#For Milestone 4
+```{r}
+diff_in_means <- e2|> 
+  group_by(Incumbent)|> 
+  summarize(stance_mean = mean(definitive_stance)) |>
+  pivot_wider(names_from = Incumbent,
+              values_from = stance_mean)|> 
+   mutate(ATE=`Yes`-`No`) 
+
+diff_in_means
+```
+```{r}
+library(infer) 
+dim_boots <- e2|> 
+  rep_slice_sample(prop=1, replace=TRUE, reps=1000)|> 
+  group_by(replicate, Incumbent)|> 
+  summarize(stance_mean = mean(definitive_stance)) |>
+  pivot_wider(names_from = Incumbent,
+              values_from = stance_mean)|> 
+  mutate(ATE=`Yes`-`No`) 
+dim_boots
+
+dim_ci_95 <- dim_boots|> 
+  select(replicate,ATE)|> 
+  get_confidence_interval(level=0.95,type="percentile") 
+
+dim_ci_95
+
+dim_boots|> 
+  ggplot(aes(x=ATE))+ geom_histogram(aes(y=after_stat(density)),binwidth=0.005) + 
+  geom_vline(aes(xintercept = dim_ci_95$lower_ci), color = "steelblue1") +
+  geom_vline(aes(xintercept = dim_ci_95$upper_ci), color = "steelblue1") +
+  geom_vline(aes(xintercept = mean(ATE)), color ="magenta") +
+  labs(
+    x = "Average Treatment Effect",
+    y = "Density",
+    title = "Sampling Distribution for the Average Treatment Effect of Incumbency on Republican Representatives' likelihood to be decisive about the Legitimacy of the 2020 Election"
+  )
+
+
+```
+Analysis of the data
+
+The above graph shows the sampling distribution for the Average Treatment Effect of Incumbency on Republican Representatives' likelihood to be decisive about the Legitimacy of the 2020 Election. 
+
+
 
