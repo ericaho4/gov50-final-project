@@ -104,7 +104,7 @@ The above graph shows the sampling distribution for the Average Treatment Effect
 
 The left-most vertical blue line that intersects the x-axis at x=0.3104219	is the lower-confidence interval for 95% confidence. The right-most vertical blue line intersects the x-axis at 0.4901468 and represents the upper-confidence interval for 95% confidence. Together, the vertical lines indicate that 95% of the data can be found within the range bordered by the two vertical lines. The magenta line intersects the x-axis at the mean of all samples' average treatment effects. 
 
-What should be noticed about this sampling distribution is that the confidence interval does not contain zero, meaning that the average treatment effect for 95% of the data shows a positive difference between incumbency variables and the likelihood for a republican representative to be decisive on their opinion regarding the validity of the 2020 election. Thus, the sampling distribution of the average treatment effects prove statistical signficance between the two variables, though it is important to note that important confounders, such as geography have not been considered. 
+What should be noticed about this sampling distribution is that the confidence interval does not contain zero, meaning that the average treatment effect for 95% of the data shows a positive difference between incumbency variables and the likelihood for a republican representative to be decisive on their opinion regarding the validity of the 2020 election. Thus, the sampling distribution of the average treatment effects prove statistical signficance between the two variables, though it is important to note that important confounders, such as geography have not been considered.
 
 
 
