@@ -1,22 +1,28 @@
 ---
 title: "Gov 50 Final Project"
 author: "Erica Ho"
-description: "My final project"
+description: "My Final Project"
 output:
   distill::distill_article:
     self_contained: false
 ---
 
 
-## Project thoughts
+## Introduction
 
-I am interested in exploring data related to repression indexes in Singapore. I am taking a class on authoritarianism where I am tasked with conducting a study on Lee Kuan Yew's dictatorship and repression styles. There are several ways to measure repression, such as V-Dem, Polity, or via a binary scale. I would like to compile this data and display it visually using R. 
+The 2020 U.S. Presidential Election between Donald Trump and Joe Biden proved to be contentious as many citizens, including elected representatives, denied it's legitimacy. The widespread denial eventually lead to, what some political scientists consider, a coup d'état on January 6th, 2021, where more than 2,000 rioters stormed the U.S. capital in an attempt to block Joe Biden's inauguration. This historic event fueled further political polarization among American voters, and "denying the 2020 election" became a new characteristic that some voters used to cast their ballot. I aim to determine if it is more likely for republicans to have a decisive opinion on the legitimacy of the 2020 election when they have greater sense of security in their election success, such as when they are an incumbent. According to authors of "Government in America: People, Politics, and Policy", Incumbency is the strongest determinant of electoral success. The researchers compiled data from Congressional elections and determined that incumbents have had between a 75 and 98 percent success rate when running for reelection between 1990 and 2012 (Edwards et al., 2013, 365). In 2020, incumbents running for reelection in the U.S. House of Representatives had a 94.7 percent chance of winning, while U.S. Senators had an 83.9 percent chance of winning reelection, given they held the position before (Reelection Rates Over the Years, n.d.). While these statistics are explained by the incumbent's increased access to money, campaign organization, visibility, and office perks of Congress, it also represents a heightened feeling of job security which eases electoral pressure and allows candidates to speak more freely about their opinion on contentious political topics. 
 
-## Proposal 
+Thus my research question is as follows: Does incumbency impact a republican congressional candidate's likelihood of outwardly denying the 2020 Election results? In this study, I plan determine if there is a correlation between the incumbency of congressional republican representatives who are candidates in the 2022 elections and if they deny the 2020 election. I hypothesis that being an incumbent increases the candidates feelings of job security, and are thus more likely to express potentially polarizing view points, such as denying the election. I expect to find a positive correlation between incumbency of the congressional candidate and having a decisive opinion regarding the legitimacy of the 2020 U.S. Presidential Election. 
 
-Does incumbency impact a republican representative's likelihood of outwardly denying the 2020 Election results? In this study, I plan determine if there is a correlation between the incumbency of congressional republican representatives and if they deny the 2020 election. I hypothesis that being an incumbent increases the candidates feelings of job security, and are thus more likely to express potentially polarizing view points, such as denying the election. Thus, I expect to find a positive correlation between incumbency on the congressional candidate and election denial. 
+## Data and Research Method 
 
-To begin this project, I plan to filter the data by office to ensure that I am only evaluating candidates for the House of Representatives. I will also filter by party to ensure that I am only evaluating republican candidates. Eliminating democrats from this study allows me to observe a more specific and relevant portion of the data. Lastly, I plot the data to determine if the proportion of incumbents who deny the election is greater than the proportion of non-incumbents who don't outwardly deny the election.
+To begin this project, I gathered data from a FiveThirtyEight data set titled, "election-deniers" that includes 552 entries for every republican candidate in the 2022 General Election. The data drew from news reports, debate footage, campaign materials and social media and reached out to every nominee in an effort to classify them into one of six categories regarding their belief in the 2020 election’s legitimacy. The final data set includes the name of every Republican candidate for Senate, House, governor, attorney general and secretary of state running in the 2022 general election, their incumbency status, state, office, district, stance, and media source where the candidate expressed their stance. Since my data was gathered from the sample at a single point in time, my research process is cross-sectional. 
+
+To conduct my analyses, I filtered the data by office to ensure that I was only evaluating candidates for the House of Representatives. This allowed me to control for as many variables as possible. 
+
+The original data collected six "Stances" that were extrapolated via expert coding from each candidates' statements to various news sources. The "Stances" included: "Fully denied", "Raised questions", "Accepted with reservations", "Fully accepted", "No comment" and "Avoided answering". I coded these six responses once more into two categories: decisive and non-decisive. The responses "Fully denied" and "Fully accepted" were coded as decisive, while the other four responses were coded as indecisive. 
+
+To provide the plot below, I grouped the data by the two variables relevant to my evaluation: incumbency, and weather or not the republican candidate expressed a definitive stance on denying the 2020 election. The plot shows that of non-incumbents in the 2022 House General Election, 158 stated no definitive opinion on the validity of the 2020 election, while only 82 did. Of the incumbents, 48 candidates did not express a definitive opinion on the 2020 election while 136 incumbents did. 
 
 ```{r}
 library(ggplot2)
@@ -33,31 +39,74 @@ e2 <- election_deniers_data |>
                                        Stance == "Avoided answering"~ 0 , 
                                        Stance == "No comment" ~ 0))
 
+e2
+plot<- e2|>
+  group_by(definitive_stance, Incumbent)|>
+  summarize(count = n())|>
+  pivot_wider(
+    names_from = definitive_stance, 
+    values_from = count)
+plot
+
+knitr::kable(plot, col.names = c("Incumbent", "Not Definitive", "Definitive"))
+```
+
+
+The second plot below shows the proportions of incumbent or non-incumbent candidates who expressed decisive opinions on the 2020 election. The plot shows that of Non-Incumbents, only 34.167% expressed a decisive opinion. Of incumbents, 73.913% of candidates expressed a decisive opinion. 
+
+
+```{r}
+plot2<- e2|>
+  group_by(Incumbent) |>
+  summarize(stance_mean = mean(definitive_stance)) |>
+  pivot_wider(
+    names_from = Incumbent,
+    values_from = stance_mean
+  )
+
+plot2
+  
+knitr::kable(plot2, col.names = c("Non-Incumbent", "Incumbent"))
+```
+
+## Graph Explanation and Analysis 
+
+To provide this visual, I plotted the organized data to determine if the proportion of incumbents who deny the election is greater than the proportion of non-incumbents who don't outwardly deny the election.
+
+The graph shows the relationship between incumbency and likelihood that a congressional representative had outwardly decisive opinions regarding the validity of the 2020 Election. My hypothesis theorizes that incumbents benefit from a greater sense of job security, which allows them to be outspoken on contentious political topics. Candidates who were not running as an incumbent did not enjoy such job security, and likely presented less polarizing viewpoints to win the election.
+
+Decisiveness was assigned code equal to 1, while indecisive was assigned code equal to 0. To create the plot, I grouped the data by Incumbency and definitive_stance, which contained by 1/0 code, and plotted the mean of the sum of the definitive_stance column on the y access for each incumbent group. The graph shows that of Non-Incumbents, only 34.167% expressed a decisive opinion. Of incumbents, 73.913% of candidates expressed a decisive opinion. The incumbents did appear to have a greater proportion of candidates who had definitive opinions regarding the 2020 election, as I hypothesized. However, confounding variables such as geography and the uncontrolled sample size inhibit concluding causality. 
+
+
+```{r}
 e3 <- e2|>  
   group_by(Incumbent) |>
   summarize(stance_mean = mean(definitive_stance)) |>
   ggplot(aes(x = Incumbent, y = stance_mean)) + geom_col(fill = "steelblue1") + labs(
     x = "Incumbent",
     y = "Proportion of Decisive Candidates",
-    title = "Incumbency and decisiveness on the validity of the 2016 election"
+    title = "Incumbency and decisiveness on the validity of the 2020 election"
   ) + ylim(0,1)
 
 e3
 ```
-## Graph Explanation and Analysis 
 
-The above graph shows the relationship between incumbency and likelihood that a congressional representative had outwardly decisive opinions regarding the validity of the 2016 Election. My hypothesis theorizes that incumbents benefit from a greater sense of job security, which allows them to be outspoken on contentious political topics. Candidates who were not running as an incumbent did not enjoy such job security, and likely presented less polarizing viewpoints to win the election.
 
-The original data collected six "Stances" that each candidate submitted to various news sources. The "Stances" included: "Fully denied", "Raised questions", "Accepted with reservations", "Fully accepted", "No comment" and "Avoided answering". I coded these six responses into two categories: decisive and non-decisive. The responses "Fully denied" and "Fully accepted" were coded as decisive, while the other four responses were coded as indecisive. 
-
-Decisiveness was assigned code equal to 1, which indecisive was assigned code equal to 0. To create the plot, I grouped the data by Incumbency and definitive_stance, which contained by 1/0 code, and plotted the mean of the sum of the definitive_stance column on the y access for each incumbent group. The incumbents did appear to have a greater proportion of candidates who had definitive opinions regarding the 2016 election, as I hypothesized. However, confounding variables such as geography and the uncontrolled sample size inhibit concluding causality. 
 
 ```{r}
 unique(election_deniers_data$Stance)
 ```
 
 
-#For Milestone 4
+
+## Analysis of the data and Results 
+
+The graph below shows the sampling distribution for the Average Treatment Effect of Incumbency on Republican Representatives' likelihood to be decisive about the Legitimacy of the 2020 Election. The histogram depicts the 1000 bootstrap samples that were pulled with replacement from the original sample. 
+
+The left-most vertical blue line that intersects the x-axis at x=0.3103845	is the lower-confidence interval for 95% confidence. The right-most vertical blue line intersects the x-axis at 0.4851755 and represents the upper-confidence interval for 95% confidence. Together, the vertical lines indicate that 95% of the data can be found within the range bordered by the two vertical lines. The magenta line intersects the x-axis at the mean of all samples' average treatment effects. 
+
+What should be noticed about this sampling distribution is that the confidence interval does not contain zero, meaning that the average treatment effect for 95% of the data shows a positive difference between incumbency variables and the likelihood for a republican representative to be decisive on their opinion regarding the validity of the 2020 election. Thus, the sampling distribution of the average treatment effects prove statistical signficance between the two variables, though it is important to note that important confounders, such as geography have not been considered.
+
 ```{r}
 diff_in_means <- e2|> 
   group_by(Incumbent)|> 
@@ -70,6 +119,7 @@ diff_in_means
 ```
 ```{r}
 library(infer) 
+set.seed(02138)
 dim_boots <- e2|> 
   rep_slice_sample(prop=1, replace=TRUE, reps=1000)|> 
   group_by(replicate, Incumbent)|> 
@@ -98,13 +148,12 @@ dim_boots|>
 
 
 ```
-## Analysis of the data
+## Conclusion
 
-The above graph shows the sampling distribution for the Average Treatment Effect of Incumbency on Republican Representatives' likelihood to be decisive about the Legitimacy of the 2020 Election. The histograph depicts the 1000 bootstrap samples that were pulled with replacement from the original sample. 
+I used FiveThirtyEight's Election_deniers data to compare the likelihood of a Republican Congressional Candidate in the 2020 election to present a decisive opinion on the legitimacy of the 2020 election and their incumbency status. I hypothesized that incumbents would be more likely to decisively express a polarizing opinion because they enjoy a greater sense of job security relative to their non-incumbent counterparts. 
 
-The left-most vertical blue line that intersects the x-axis at x=0.3104219	is the lower-confidence interval for 95% confidence. The right-most vertical blue line intersects the x-axis at 0.4901468 and represents the upper-confidence interval for 95% confidence. Together, the vertical lines indicate that 95% of the data can be found within the range bordered by the two vertical lines. The magenta line intersects the x-axis at the mean of all samples' average treatment effects. 
+I found that incumbents are significantly more likely to present decisive viewpoints on the 2020 election as 73.91304% of incumbents expressed decisive opinions while only 34.16667% of non-incumbents demonstrated decisiveness. Additionally, I found these findings statistically significant after evaluating 1000 bootstrap samples to determine that the average treatment effect was above zero with 95% confidence. 
 
-What should be noticed about this sampling distribution is that the confidence interval does not contain zero, meaning that the average treatment effect for 95% of the data shows a positive difference between incumbency variables and the likelihood for a republican representative to be decisive on their opinion regarding the validity of the 2020 election. Thus, the sampling distribution of the average treatment effects prove statistical signficance between the two variables, though it is important to note that important confounders, such as geography have not been considered.
-
+Despite these findings, I cannot use the results to determine causality or support the reasoning that led to my hypothesis because of the existing confounding variables that may have impacted the results. For example, I did not control the geographic distribution in relation to political party or extremism, or any factors that could also explain rates of congressional representative turnover. For example, it is possible that my data was skewed by the possibility that non-swing states that are more definitively blue or red, such as California and Alabama, had a higher rate of incumbency in addition to a higher rate of political decisiveness, but not for reasons explained in my evaluation of incumbency of 2020 Election Validity decisiveness. In a more thorough study, it is important to control more variables, such as geographic distribution, and investigate patterns of incumbency to determine if they had a significant impact on incumbency and political decisiveness. 
 
 
