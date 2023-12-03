@@ -12,7 +12,7 @@ output:
 
 The 2020 U.S. Presidential Election between Donald Trump and Joe Biden proved to be contentious as many citizens, including elected representatives, denied it's legitimacy. The widespread denial eventually lead to, what some political scientists consider, a coup d'état on January 6th, 2021, where more than 2,000 rioters stormed the U.S. capital in an attempt to block Joe Biden's inauguration. This historic event fueled further political polarization among American voters, and "denying the 2020 election" became a new characteristic that some voters used to cast their ballot. I aim to determine if it is more likely for republicans to have a decisive opinion on the legitimacy of the 2020 election when they have greater sense of security in their election success, such as when they are an incumbent. According to authors of "Government in America: People, Politics, and Policy", Incumbency is the strongest determinant of electoral success. The researchers compiled data from Congressional elections and determined that incumbents have had between a 75 and 98 percent success rate when running for reelection between 1990 and 2012 (Edwards et al., 2013, 365). In 2020, incumbents running for reelection in the U.S. House of Representatives had a 94.7 percent chance of winning, while U.S. Senators had an 83.9 percent chance of winning reelection, given they held the position before (Reelection Rates Over the Years, n.d.). While these statistics are explained by the incumbent's increased access to money, campaign organization, visibility, and office perks of Congress, it also represents a heightened feeling of job security which eases electoral pressure and allows candidates to speak more freely about their opinion on contentious political topics. 
 
-Thus my research question is as follows: Does incumbency impact a republican congressional candidate's likelihood of outwardly denying the 2020 Election results? In this study, I plan determine if there is a correlation between the incumbency of congressional republican representatives who are candidates in the 2022 elections and if they deny the 2020 election. I hypothesis that being an incumbent increases the candidates feelings of job security, and are thus more likely to express potentially polarizing view points, such as denying the election. I expect to find a positive correlation between incumbency of the congressional candidate and having a decisive opinion regarding the legitimacy of the 2020 U.S. Presidential Election. 
+Thus my research question is as follows: Does incumbency impact a republican congressional candidate's likelihood of presenting a decisive opinion on the legitimacy of the 2020 Election results? In this study, I plan determine if there is a correlation between the incumbency of congressional republican representatives who are candidates in the 2022 elections and if they positively deny or approve the results of the 2020 election. I hypothesis that being an incumbent increases the candidates feelings of job security, and are thus more likely to express potentially polarizing view points, such as denying the election, or accepting the reuslts of the election. I expect to find a positive correlation between incumbency of the congressional candidate and having a decisive opinion regarding the legitimacy of the 2020 U.S. Presidential Election. 
 
 ## Data and Research Method 
 
@@ -39,14 +39,14 @@ e2 <- election_deniers_data |>
                                        Stance == "Avoided answering"~ 0 , 
                                        Stance == "No comment" ~ 0))
 
-e2
+
 plot<- e2|>
   group_by(definitive_stance, Incumbent)|>
   summarize(count = n())|>
   pivot_wider(
     names_from = definitive_stance, 
     values_from = count)
-plot
+
 
 knitr::kable(plot, col.names = c("Incumbent", "Not Definitive", "Definitive"))
 ```
@@ -63,8 +63,6 @@ plot2<- e2|>
     names_from = Incumbent,
     values_from = stance_mean
   )
-
-plot2
   
 knitr::kable(plot2, col.names = c("Non-Incumbent", "Incumbent"))
 ```
@@ -105,7 +103,9 @@ The graph below shows the sampling distribution for the Average Treatment Effect
 
 The left-most vertical blue line that intersects the x-axis at x=0.3103845	is the lower-confidence interval for 95% confidence. The right-most vertical blue line intersects the x-axis at 0.4851755 and represents the upper-confidence interval for 95% confidence. Together, the vertical lines indicate that 95% of the data can be found within the range bordered by the two vertical lines. The magenta line intersects the x-axis at the mean of all samples' average treatment effects. 
 
-What should be noticed about this sampling distribution is that the confidence interval does not contain zero, meaning that the average treatment effect for 95% of the data shows a positive difference between incumbency variables and the likelihood for a republican representative to be decisive on their opinion regarding the validity of the 2020 election. Thus, the sampling distribution of the average treatment effects prove statistical signficance between the two variables, though it is important to note that important confounders, such as geography have not been considered.
+The left-most vertical red line that intersects the x-axis at x=0.2746276 is the lower-confidence interval for 99% confidence. The right-most vertical blue line intersects the x-axis at x=0.522173 and represents the upper-confidence interval for 99% confidence. Together, the vertical lines indicate that 99% of the data can be found within the range bordered by the two vertical lines.
+
+What should be noticed about this sampling distribution is that the confidence interval does not contain zero, meaning that the average treatment effect for 95% and 99% of the data show a positive difference between incumbency variables and the likelihood for a republican representative to be decisive on their opinion regarding the validity of the 2020 election. Thus, the sampling distribution of the average treatment effects prove statistical signficance between the two variables, though it is important to note that important confounders, such as geography have not been considered.
 
 ```{r}
 diff_in_means <- e2|> 
@@ -115,11 +115,12 @@ diff_in_means <- e2|>
               values_from = stance_mean)|> 
    mutate(ATE=`Yes`-`No`) 
 
-diff_in_means
+
+knitr::kable(diff_in_means, col.names = c("Non-Incumbent", "Incumbent", "ATE"))
 ```
 ```{r}
 library(infer) 
-set.seed(02138)
+set.seed(87122)
 dim_boots <- e2|> 
   rep_slice_sample(prop=1, replace=TRUE, reps=1000)|> 
   group_by(replicate, Incumbent)|> 
@@ -127,7 +128,6 @@ dim_boots <- e2|>
   pivot_wider(names_from = Incumbent,
               values_from = stance_mean)|> 
   mutate(ATE=`Yes`-`No`) 
-dim_boots
 
 dim_ci_95 <- dim_boots|> 
   select(replicate,ATE)|> 
@@ -135,10 +135,18 @@ dim_ci_95 <- dim_boots|>
 
 dim_ci_95
 
+dim_ci_99 <- dim_boots|> 
+  select(replicate,ATE)|> 
+  get_confidence_interval(level=0.99,type="percentile") 
+
+dim_ci_99
+
 dim_boots|> 
   ggplot(aes(x=ATE))+ geom_histogram(aes(y=after_stat(density)),binwidth=0.005) + 
   geom_vline(aes(xintercept = dim_ci_95$lower_ci), color = "steelblue1") +
   geom_vline(aes(xintercept = dim_ci_95$upper_ci), color = "steelblue1") +
+  geom_vline(aes(xintercept = dim_ci_99$lower_ci), color = "red") +
+  geom_vline(aes(xintercept = dim_ci_99$upper_ci), color = "red") +
   geom_vline(aes(xintercept = mean(ATE)), color ="magenta") +
   labs(
     x = "Average Treatment Effect",
@@ -146,13 +154,16 @@ dim_boots|>
     title = "Sampling Distribution for the Average Treatment Effect of Incumbency on Republican Representatives' likelihood to be decisive about the Legitimacy of the 2020 Election"
   )
 
+dim_boots
 
 ```
+
+
 ## Conclusion
 
 I used FiveThirtyEight's Election_deniers data to compare the likelihood of a Republican Congressional Candidate in the 2020 election to present a decisive opinion on the legitimacy of the 2020 election and their incumbency status. I hypothesized that incumbents would be more likely to decisively express a polarizing opinion because they enjoy a greater sense of job security relative to their non-incumbent counterparts. 
 
-I found that incumbents are significantly more likely to present decisive viewpoints on the 2020 election as 73.91304% of incumbents expressed decisive opinions while only 34.16667% of non-incumbents demonstrated decisiveness. Additionally, I found these findings statistically significant after evaluating 1000 bootstrap samples to determine that the average treatment effect was above zero with 95% confidence. 
+I found that incumbents are significantly more likely to present decisive viewpoints on the 2020 election as 73.91304% of incumbents expressed decisive opinions while only 34.16667% of non-incumbents demonstrated decisiveness. Additionally, I found these findings statistically significant after evaluating 1000 bootstrap samples to determine that the average treatment effect was above zero with 99% confidence. 
 
 Despite these findings, I cannot use the results to determine causality or support the reasoning that led to my hypothesis because of the existing confounding variables that may have impacted the results. For example, I did not control the geographic distribution in relation to political party or extremism, or any factors that could also explain rates of congressional representative turnover. For example, it is possible that my data was skewed by the possibility that non-swing states that are more definitively blue or red, such as California and Alabama, had a higher rate of incumbency in addition to a higher rate of political decisiveness, but not for reasons explained in my evaluation of incumbency of 2020 Election Validity decisiveness. In a more thorough study, it is important to control more variables, such as geographic distribution, and investigate patterns of incumbency to determine if they had a significant impact on incumbency and political decisiveness. 
 
