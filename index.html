@@ -1705,23 +1705,45 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>replicate</span>,<span class='va'>ATE</span><span class='op'>)</span><span class='op'>|&gt;</span> </span>
 <span>  <span class='fu'><a href='https://infer.tidymodels.org/reference/get_confidence_interval.html'>get_confidence_interval</a></span><span class='op'>(</span>level<span class='op'>=</span><span class='fl'>0.95</span>,type<span class='op'>=</span><span class='st'>"percentile"</span><span class='op'>)</span> </span>
 <span></span>
-<span><span class='va'>dim_ci_95</span></span></code></pre>
+<span></span>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>dim_ci_95</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Lower Confidence Interval (95%)"</span>, <span class='st'>"Upper Confidence Interval (95%) "</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code># A tibble: 1 × 2
-  lower_ci upper_ci
-     &lt;dbl&gt;    &lt;dbl&gt;
-1    0.316    0.494</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Lower Confidence Interval (95%)</th>
+<th style="text-align: right;">Upper Confidence Interval (95%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.3160843</td>
+<td style="text-align: right;">0.4938214</td>
+</tr>
+</tbody>
+</table>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dim_ci_99</span> <span class='op'>&lt;-</span> <span class='va'>dim_boots</span><span class='op'>|&gt;</span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>replicate</span>,<span class='va'>ATE</span><span class='op'>)</span><span class='op'>|&gt;</span> </span>
 <span>  <span class='fu'><a href='https://infer.tidymodels.org/reference/get_confidence_interval.html'>get_confidence_interval</a></span><span class='op'>(</span>level<span class='op'>=</span><span class='fl'>0.99</span>,type<span class='op'>=</span><span class='st'>"percentile"</span><span class='op'>)</span> </span>
 <span></span>
-<span><span class='va'>dim_ci_99</span></span></code></pre>
+<span></span>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>dim_ci_99</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Lower Confidence Interval (99%)"</span>, <span class='st'>"Upper Confidence Interval (99%) "</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code># A tibble: 1 × 2
-  lower_ci upper_ci
-     &lt;dbl&gt;    &lt;dbl&gt;
-1    0.275    0.522</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Lower Confidence Interval (99%)</th>
+<th style="text-align: right;">Upper Confidence Interval (99%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.2746276</td>
+<td style="text-align: right;">0.522173</td>
+</tr>
+</tbody>
+</table>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dim_boots</span><span class='op'>|&gt;</span> </span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>ATE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_histogram.html'>geom_histogram</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes_eval.html'>after_stat</a></span><span class='op'>(</span><span class='va'>density</span><span class='op'>)</span><span class='op'>)</span>,binwidth<span class='op'>=</span><span class='fl'>0.005</span><span class='op'>)</span> <span class='op'>+</span> </span>
@@ -1760,7 +1782,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>I used FiveThirtyEight’s Election_deniers data to compare the likelihood of a Republican Congressional Candidate in the 2020 election to present a decisive opinion on the legitimacy of the 2020 election and their incumbency status. I hypothesized that incumbents would be more likely to decisively express a polarizing opinion because they enjoy a greater sense of job security relative to their non-incumbent counterparts.</p>
 <p>I found that incumbents are significantly more likely to present decisive viewpoints on the 2020 election as 73.91304% of incumbents expressed decisive opinions while only 34.16667% of non-incumbents demonstrated decisiveness. Additionally, I found these findings statistically significant after evaluating 1000 bootstrap samples to determine that the average treatment effect was above zero with 99% confidence.</p>
 <p>Despite these findings, I cannot use the results to determine causality or support the reasoning that led to my hypothesis because of the existing confounding variables that may have impacted the results. For example, I did not control the geographic distribution in relation to political party or extremism, or any factors that could also explain rates of congressional representative turnover. For example, it is possible that my data was skewed by the possibility that non-swing states that are more definitively blue or red, such as California and Alabama, had a higher rate of incumbency in addition to a higher rate of political decisiveness, but not for reasons explained in my evaluation of incumbency of 2020 Election Validity decisiveness. In a more thorough study, it is important to control more variables, such as geographic distribution, and investigate patterns of incumbency to determine if they had a significant impact on incumbency and political decisiveness.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

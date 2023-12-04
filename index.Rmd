@@ -156,8 +156,6 @@ dim_boots|>
     title = "Sampling Distribution for the Average Treatment Effect of Incumbency on Republican Representatives' likelihood to be decisive about the Legitimacy of the 2020 Election"
   )
 
-dim_boots
-
 ```
 
 
