@@ -1,7 +1,7 @@
 ---
 title: "Gov 50 Final Project"
 author: "Erica Ho"
-description: "My Final Project"
+description: "Republican Representative Incumbency and Expressing Decisive Opinions on the Legitimacy of the 2020 Election"
 output:
   distill::distill_article:
     self_contained: false
@@ -18,7 +18,7 @@ Thus my research question is as follows: Does incumbency impact a republican con
 
 To begin this project, I gathered data from a FiveThirtyEight data set titled, "election-deniers" that includes 552 entries for every republican candidate in the 2022 General Election. The data drew from news reports, debate footage, campaign materials and social media and reached out to every nominee in an effort to classify them into one of six categories regarding their belief in the 2020 election’s legitimacy. The final data set includes the name of every Republican candidate for Senate, House, governor, attorney general and secretary of state running in the 2022 general election, their incumbency status, state, office, district, stance, and media source where the candidate expressed their stance. Since my data was gathered from the sample at a single point in time, my research process is cross-sectional. 
 
-To conduct my analyses, I filtered the data by office to ensure that I was only evaluating candidates for the House of Representatives. This allowed me to control for as many variables as possible. 
+To conduct my analyses, I filtered the data by office to ensure that I was only evaluating candidates for the House of Representatives. This allowed me to control for as many variables as possible and collect a sample that was more proportionally representative of the entire U.S. population, as oppose to the Senate, which disproportionately represents smaller states. 
 
 The original data collected six "Stances" that were extrapolated via expert coding from each candidates' statements to various news sources. The "Stances" included: "Fully denied", "Raised questions", "Accepted with reservations", "Fully accepted", "No comment" and "Avoided answering". I coded these six responses once more into two categories: decisive and non-decisive. The responses "Fully denied" and "Fully accepted" were coded as decisive, while the other four responses were coded as indecisive. 
 
@@ -35,7 +35,7 @@ e2 <- election_deniers_data |>
                                         Stance == "Fully denied" ~ 1,
                                         Stance == "Accepted with reservations" ~ 0,
                                         Stance == "Accepted with reservations" ~  0,
-                                       Stance == "Raised questions" ~0 , 
+                                       Stance == "Raised questions" ~ 0 , 
                                        Stance == "Avoided answering"~ 0 , 
                                        Stance == "No comment" ~ 0))
 
@@ -143,18 +143,22 @@ dim_ci_99 <- dim_boots|>
 
 knitr::kable(dim_ci_99, col.names = c("Lower Confidence Interval (99%)", "Upper Confidence Interval (99%) "))
 
+line.data <- data.frame(
+  xintercept = c(dim_ci_99$lower_ci, dim_ci_95$lower_ci, mean(dim_boots$ATE), dim_ci_95$upper_ci, dim_ci_99$upper_ci),
+  Lines = c("Lower 99%", "Lower 95%", "ATE mean", "Upper 95%", "Upper 99%"), 
+  stringsAsFactors = FALSE)
+
 dim_boots|> 
   ggplot(aes(x=ATE))+ geom_histogram(aes(y=after_stat(density)),binwidth=0.005) + 
-  geom_vline(aes(xintercept = dim_ci_95$lower_ci), color = "steelblue1") +
-  geom_vline(aes(xintercept = dim_ci_95$upper_ci), color = "steelblue1") +
-  geom_vline(aes(xintercept = dim_ci_99$lower_ci), color = "red") +
-  geom_vline(aes(xintercept = dim_ci_99$upper_ci), color = "red") +
-  geom_vline(aes(xintercept = mean(ATE)), color ="magenta") +
+  geom_vline(aes(xintercept = xintercept), line.data, size = 1, color = c("red", "blue", "magenta", "blue", "red"))+
+  annotate("text", line.data$xintercept, max(11.5), hjust = -.10, 
+    label = line.data$Lines, size = unit(2, "pt")) +
   labs(
     x = "Average Treatment Effect",
     y = "Density",
-    title = "Sampling Distribution for the Average Treatment Effect of Incumbency on Republican Representatives' likelihood to be decisive about the Legitimacy of the 2020 Election"
+    title = stringr::str_wrap("Sampling distribution for the ATE of incumbency on republican representatives' likelihood to be decisive about the legitimacy of the 2020 election")
   )
+
 
 ```
 
@@ -165,6 +169,9 @@ I used FiveThirtyEight's Election_deniers data to compare the likelihood of a Re
 
 I found that incumbents are significantly more likely to present decisive viewpoints on the 2020 election as 73.91304% of incumbents expressed decisive opinions while only 34.16667% of non-incumbents demonstrated decisiveness. Additionally, I found these findings statistically significant after evaluating 1000 bootstrap samples to determine that the average treatment effect was above zero with 99% confidence. 
 
-Despite these findings, I cannot use the results to determine causality or support the reasoning that led to my hypothesis because of the existing confounding variables that may have impacted the results. For example, I did not control the geographic distribution in relation to political party or extremism, or any factors that could also explain rates of congressional representative turnover. For example, it is possible that my data was skewed by the possibility that non-swing states that are more definitively blue or red, such as California and Alabama, had a higher rate of incumbency in addition to a higher rate of political decisiveness, but not for reasons explained in my evaluation of incumbency of 2020 Election Validity decisiveness. In a more thorough study, it is important to control more variables, such as geographic distribution, and investigate patterns of incumbency to determine if they had a significant impact on incumbency and political decisiveness. 
+However, I cannot use the results to determine causality or support the reasoning that led to my hypothesis because of the existing confounding variables that may have impacted the results. For example, I did not control the geographic distribution in relation to political party or extremism, or any factors that could also explain rates of congressional representative turnover. For example, it is possible that my data was skewed by the possibility that non-swing states that are more definitively blue or red, such as California and Alabama, had a higher rate of incumbency in addition to a higher rate of political decisiveness, but not for reasons explained in my evaluation of incumbency of 2020 Election Validity decisiveness. Additionally, "decisiveness" could be it's own confounding variable, as perhaps individuals are more likely to be elected if they express concrete viewpoints on controversial topics, rather than wishy-washy answers to questions constituents what to hear. If decisiveness is a predictor of campaign success, then it would be no surprise that incumbents are more likely to be decisive, as they have already demonstrated at least one instance of election success. 
+
+
+In a more thorough study, it is important to control more variables, such as geographic distribution, and investigate patterns of incumbency to determine if they had a significant impact on political decisiveness. 
 
 
