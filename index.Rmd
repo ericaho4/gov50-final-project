@@ -133,13 +133,15 @@ dim_ci_95 <- dim_boots|>
   select(replicate,ATE)|> 
   get_confidence_interval(level=0.95,type="percentile") 
 
-dim_ci_95
+
+knitr::kable(dim_ci_95, col.names = c("Lower Confidence Interval (95%)", "Upper Confidence Interval (95%) "))
 
 dim_ci_99 <- dim_boots|> 
   select(replicate,ATE)|> 
   get_confidence_interval(level=0.99,type="percentile") 
 
-dim_ci_99
+
+knitr::kable(dim_ci_99, col.names = c("Lower Confidence Interval (99%)", "Upper Confidence Interval (99%) "))
 
 dim_boots|> 
   ggplot(aes(x=ATE))+ geom_histogram(aes(y=after_stat(density)),binwidth=0.005) + 

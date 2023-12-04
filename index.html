@@ -1545,7 +1545,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-article">
 <h2 id="introduction">Introduction</h2>
 <p>The 2020 U.S. Presidential Election between Donald Trump and Joe Biden proved to be contentious as many citizens, including elected representatives, denied it’s legitimacy. The widespread denial eventually lead to, what some political scientists consider, a coup d’état on January 6th, 2021, where more than 2,000 rioters stormed the U.S. capital in an attempt to block Joe Biden’s inauguration. This historic event fueled further political polarization among American voters, and “denying the 2020 election” became a new characteristic that some voters used to cast their ballot. I aim to determine if it is more likely for republicans to have a decisive opinion on the legitimacy of the 2020 election when they have greater sense of security in their election success, such as when they are an incumbent. According to authors of “Government in America: People, Politics, and Policy”, Incumbency is the strongest determinant of electoral success. The researchers compiled data from Congressional elections and determined that incumbents have had between a 75 and 98 percent success rate when running for reelection between 1990 and 2012 (Edwards et al., 2013, 365). In 2020, incumbents running for reelection in the U.S. House of Representatives had a 94.7 percent chance of winning, while U.S. Senators had an 83.9 percent chance of winning reelection, given they held the position before (Reelection Rates Over the Years, n.d.). While these statistics are explained by the incumbent’s increased access to money, campaign organization, visibility, and office perks of Congress, it also represents a heightened feeling of job security which eases electoral pressure and allows candidates to speak more freely about their opinion on contentious political topics.</p>
-<p>Thus my research question is as follows: Does incumbency impact a republican congressional candidate’s likelihood of outwardly denying the 2020 Election results? In this study, I plan determine if there is a correlation between the incumbency of congressional republican representatives who are candidates in the 2022 elections and if they deny the 2020 election. I hypothesis that being an incumbent increases the candidates feelings of job security, and are thus more likely to express potentially polarizing view points, such as denying the election. I expect to find a positive correlation between incumbency of the congressional candidate and having a decisive opinion regarding the legitimacy of the 2020 U.S. Presidential Election.</p>
+<p>Thus my research question is as follows: Does incumbency impact a republican congressional candidate’s likelihood of presenting a decisive opinion on the legitimacy of the 2020 Election results? In this study, I plan determine if there is a correlation between the incumbency of congressional republican representatives who are candidates in the 2022 elections and if they positively deny or approve the results of the 2020 election. I hypothesis that being an incumbent increases the candidates feelings of job security, and are thus more likely to express potentially polarizing view points, such as denying the election, or accepting the reuslts of the election. I expect to find a positive correlation between incumbency of the congressional candidate and having a decisive opinion regarding the legitimacy of the 2020 U.S. Presidential Election.</p>
 <h2 id="data-and-research-method">Data and Research Method</h2>
 <p>To begin this project, I gathered data from a FiveThirtyEight data set titled, “election-deniers” that includes 552 entries for every republican candidate in the 2022 General Election. The data drew from news reports, debate footage, campaign materials and social media and reached out to every nominee in an effort to classify them into one of six categories regarding their belief in the 2020 election’s legitimacy. The final data set includes the name of every Republican candidate for Senate, House, governor, attorney general and secretary of state running in the 2022 general election, their incumbency status, state, office, district, stance, and media source where the candidate expressed their stance. Since my data was gathered from the sample at a single point in time, my research process is cross-sectional.</p>
 <p>To conduct my analyses, I filtered the data by office to ensure that I was only evaluating candidates for the House of Representatives. This allowed me to control for as many variables as possible.</p>
@@ -1567,39 +1567,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>                                       <span class='va'>Stance</span> <span class='op'>==</span> <span class='st'>"Avoided answering"</span><span class='op'>~</span> <span class='fl'>0</span> , </span>
 <span>                                       <span class='va'>Stance</span> <span class='op'>==</span> <span class='st'>"No comment"</span> <span class='op'>~</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>e2</span></span></code></pre>
-</div>
-<pre><code># A tibble: 424 × 10
-   Candidate Incumbent State Office District Stance Source URL   Note 
-   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;
- 1 Jerry Ca… Yes       Alab… Repre… 1        Fully… Congr… http… &lt;NA&gt; 
- 2 Barry Mo… Yes       Alab… Repre… 2        Fully… Congr… http… &lt;NA&gt; 
- 3 Mike Rog… Yes       Alab… Repre… 3        Fully… Congr… http… &lt;NA&gt; 
- 4 Robert A… Yes       Alab… Repre… 4        Fully… Congr… http… &lt;NA&gt; 
- 5 Dale Str… No        Alab… Repre… 5        Fully… Faceb… http… &lt;NA&gt; 
- 6 Gary Pal… Yes       Alab… Repre… 6        Fully… Congr… http… &lt;NA&gt; 
- 7 Beatrice… No        Alab… Repre… 7        Raise… Email… &lt;NA&gt;  &lt;NA&gt; 
- 8 Nick Beg… No        Alas… Repre… At-Large Accep… Email… &lt;NA&gt;  &lt;NA&gt; 
- 9 Sarah Pa… No        Alas… Repre… At-Large Fully… Alask… http… &lt;NA&gt; 
-10 David Sc… Yes       Ariz… Repre… 1        Fully… Congr… http… &lt;NA&gt; 
-# ℹ 414 more rows
-# ℹ 1 more variable: definitive_stance &lt;dbl&gt;</code></pre>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>plot</span><span class='op'>&lt;-</span> <span class='va'>e2</span><span class='op'>|&gt;</span></span>
+<span></span>
+<span><span class='va'>plot</span><span class='op'>&lt;-</span> <span class='va'>e2</span><span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>definitive_stance</span>, <span class='va'>Incumbent</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>count <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_wider.html'>pivot_wider</a></span><span class='op'>(</span></span>
 <span>    names_from <span class='op'>=</span> <span class='va'>definitive_stance</span>, </span>
 <span>    values_from <span class='op'>=</span> <span class='va'>count</span><span class='op'>)</span></span>
-<span><span class='va'>plot</span></span></code></pre>
-</div>
-<pre><code># A tibble: 2 × 3
-  Incumbent   `0`   `1`
-  &lt;chr&gt;     &lt;int&gt; &lt;int&gt;
-1 No          158    82
-2 Yes          48   136</code></pre>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>plot</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Incumbent"</span>, <span class='st'>"Not Definitive"</span>, <span class='st'>"Definitive"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+<span></span>
+<span></span>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>plot</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Incumbent"</span>, <span class='st'>"Not Definitive"</span>, <span class='st'>"Definitive"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 <table>
 <thead>
@@ -1633,15 +1610,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>    names_from <span class='op'>=</span> <span class='va'>Incumbent</span>,</span>
 <span>    values_from <span class='op'>=</span> <span class='va'>stance_mean</span></span>
 <span>  <span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>plot2</span></span></code></pre>
-</div>
-<pre><code># A tibble: 1 × 2
-     No   Yes
-  &lt;dbl&gt; &lt;dbl&gt;
-1 0.342 0.739</code></pre>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>plot2</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Non-Incumbent"</span>, <span class='st'>"Incumbent"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+<span>  </span>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>plot2</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Non-Incumbent"</span>, <span class='st'>"Incumbent"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 <table>
 <thead>
@@ -1688,7 +1658,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h2 id="analysis-of-the-data-and-results">Analysis of the data and Results</h2>
 <p>The graph below shows the sampling distribution for the Average Treatment Effect of Incumbency on Republican Representatives’ likelihood to be decisive about the Legitimacy of the 2020 Election. The histogram depicts the 1000 bootstrap samples that were pulled with replacement from the original sample.</p>
 <p>The left-most vertical blue line that intersects the x-axis at x=0.3103845 is the lower-confidence interval for 95% confidence. The right-most vertical blue line intersects the x-axis at 0.4851755 and represents the upper-confidence interval for 95% confidence. Together, the vertical lines indicate that 95% of the data can be found within the range bordered by the two vertical lines. The magenta line intersects the x-axis at the mean of all samples’ average treatment effects.</p>
-<p>What should be noticed about this sampling distribution is that the confidence interval does not contain zero, meaning that the average treatment effect for 95% of the data shows a positive difference between incumbency variables and the likelihood for a republican representative to be decisive on their opinion regarding the validity of the 2020 election. Thus, the sampling distribution of the average treatment effects prove statistical signficance between the two variables, though it is important to note that important confounders, such as geography have not been considered.</p>
+<p>The left-most vertical red line that intersects the x-axis at x=0.2746276 is the lower-confidence interval for 99% confidence. The right-most vertical blue line intersects the x-axis at x=0.522173 and represents the upper-confidence interval for 99% confidence. Together, the vertical lines indicate that 99% of the data can be found within the range bordered by the two vertical lines.</p>
+<p>What should be noticed about this sampling distribution is that the confidence interval does not contain zero, meaning that the average treatment effect for 95% and 99% of the data show a positive difference between incumbency variables and the likelihood for a republican representative to be decisive on their opinion regarding the validity of the 2020 election. Thus, the sampling distribution of the average treatment effects prove statistical signficance between the two variables, though it is important to note that important confounders, such as geography have not been considered.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>diff_in_means</span> <span class='op'>&lt;-</span> <span class='va'>e2</span><span class='op'>|&gt;</span> </span>
@@ -1698,17 +1669,30 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>              values_from <span class='op'>=</span> <span class='va'>stance_mean</span><span class='op'>)</span><span class='op'>|&gt;</span> </span>
 <span>   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>ATE<span class='op'>=</span><span class='va'>`Yes`</span><span class='op'>-</span><span class='va'>`No`</span><span class='op'>)</span> </span>
 <span></span>
-<span><span class='va'>diff_in_means</span></span></code></pre>
+<span></span>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>diff_in_means</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Non-Incumbent"</span>, <span class='st'>"Incumbent"</span>, <span class='st'>"ATE"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code># A tibble: 1 × 3
-     No   Yes   ATE
-  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 0.342 0.739 0.397</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Non-Incumbent</th>
+<th style="text-align: right;">Incumbent</th>
+<th style="text-align: right;">ATE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.3416667</td>
+<td style="text-align: right;">0.7391304</td>
+<td style="text-align: right;">0.3974638</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/infer'>infer</a></span><span class='op'>)</span> </span>
-<span><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>02138</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>87122</span><span class='op'>)</span></span>
 <span><span class='va'>dim_boots</span> <span class='op'>&lt;-</span> <span class='va'>e2</span><span class='op'>|&gt;</span> </span>
 <span>  <span class='fu'><a href='https://infer.tidymodels.org/reference/rep_sample_n.html'>rep_slice_sample</a></span><span class='op'>(</span>prop<span class='op'>=</span><span class='fl'>1</span>, replace<span class='op'>=</span><span class='cn'>TRUE</span>, reps<span class='op'>=</span><span class='fl'>1000</span><span class='op'>)</span><span class='op'>|&gt;</span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>replicate</span>, <span class='va'>Incumbent</span><span class='op'>)</span><span class='op'>|&gt;</span> </span>
@@ -1716,25 +1700,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_wider.html'>pivot_wider</a></span><span class='op'>(</span>names_from <span class='op'>=</span> <span class='va'>Incumbent</span>,</span>
 <span>              values_from <span class='op'>=</span> <span class='va'>stance_mean</span><span class='op'>)</span><span class='op'>|&gt;</span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>ATE<span class='op'>=</span><span class='va'>`Yes`</span><span class='op'>-</span><span class='va'>`No`</span><span class='op'>)</span> </span>
-<span><span class='va'>dim_boots</span></span></code></pre>
-</div>
-<pre><code># A tibble: 1,000 × 4
-# Groups:   replicate [1,000]
-   replicate    No   Yes   ATE
-       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1         1 0.361 0.696 0.335
- 2         2 0.362 0.682 0.320
- 3         3 0.311 0.761 0.450
- 4         4 0.352 0.720 0.368
- 5         5 0.357 0.738 0.381
- 6         6 0.389 0.742 0.353
- 7         7 0.331 0.744 0.414
- 8         8 0.335 0.739 0.405
- 9         9 0.340 0.763 0.423
-10        10 0.353 0.703 0.349
-# ℹ 990 more rows</code></pre>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dim_ci_95</span> <span class='op'>&lt;-</span> <span class='va'>dim_boots</span><span class='op'>|&gt;</span> </span>
+<span></span>
+<span><span class='va'>dim_ci_95</span> <span class='op'>&lt;-</span> <span class='va'>dim_boots</span><span class='op'>|&gt;</span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>replicate</span>,<span class='va'>ATE</span><span class='op'>)</span><span class='op'>|&gt;</span> </span>
 <span>  <span class='fu'><a href='https://infer.tidymodels.org/reference/get_confidence_interval.html'>get_confidence_interval</a></span><span class='op'>(</span>level<span class='op'>=</span><span class='fl'>0.95</span>,type<span class='op'>=</span><span class='st'>"percentile"</span><span class='op'>)</span> </span>
 <span></span>
@@ -1743,12 +1710,25 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <pre><code># A tibble: 1 × 2
   lower_ci upper_ci
      &lt;dbl&gt;    &lt;dbl&gt;
-1    0.310    0.485</code></pre>
+1    0.316    0.494</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dim_ci_99</span> <span class='op'>&lt;-</span> <span class='va'>dim_boots</span><span class='op'>|&gt;</span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>replicate</span>,<span class='va'>ATE</span><span class='op'>)</span><span class='op'>|&gt;</span> </span>
+<span>  <span class='fu'><a href='https://infer.tidymodels.org/reference/get_confidence_interval.html'>get_confidence_interval</a></span><span class='op'>(</span>level<span class='op'>=</span><span class='fl'>0.99</span>,type<span class='op'>=</span><span class='st'>"percentile"</span><span class='op'>)</span> </span>
+<span></span>
+<span><span class='va'>dim_ci_99</span></span></code></pre>
+</div>
+<pre><code># A tibble: 1 × 2
+  lower_ci upper_ci
+     &lt;dbl&gt;    &lt;dbl&gt;
+1    0.275    0.522</code></pre>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dim_boots</span><span class='op'>|&gt;</span> </span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>ATE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_histogram.html'>geom_histogram</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes_eval.html'>after_stat</a></span><span class='op'>(</span><span class='va'>density</span><span class='op'>)</span><span class='op'>)</span>,binwidth<span class='op'>=</span><span class='fl'>0.005</span><span class='op'>)</span> <span class='op'>+</span> </span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_vline</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='va'>dim_ci_95</span><span class='op'>$</span><span class='va'>lower_ci</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"steelblue1"</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_vline</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='va'>dim_ci_95</span><span class='op'>$</span><span class='va'>upper_ci</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"steelblue1"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_vline</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='va'>dim_ci_99</span><span class='op'>$</span><span class='va'>lower_ci</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_vline</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='va'>dim_ci_99</span><span class='op'>$</span><span class='va'>upper_ci</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_vline</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>ATE</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span><span class='st'>"magenta"</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
 <span>    x <span class='op'>=</span> <span class='st'>"Average Treatment Effect"</span>,</span>
@@ -1756,13 +1736,31 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>    title <span class='op'>=</span> <span class='st'>"Sampling Distribution for the Average Treatment Effect of Incumbency on Republican Representatives' likelihood to be decisive about the Legitimacy of the 2020 Election"</span></span>
 <span>  <span class='op'>)</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+<img src="index_files/figure-html5/unnamed-chunk-6-1.png" width="624" />
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dim_boots</span></span></code></pre>
+</div>
+<pre><code># A tibble: 1,000 × 4
+# Groups:   replicate [1,000]
+   replicate    No   Yes   ATE
+       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1         1 0.267 0.703 0.436
+ 2         2 0.360 0.766 0.406
+ 3         3 0.343 0.759 0.416
+ 4         4 0.303 0.714 0.412
+ 5         5 0.324 0.756 0.432
+ 6         6 0.367 0.778 0.411
+ 7         7 0.344 0.731 0.387
+ 8         8 0.335 0.636 0.301
+ 9         9 0.312 0.731 0.419
+10        10 0.333 0.717 0.383
+# ℹ 990 more rows</code></pre>
 </div>
 <h2 id="conclusion">Conclusion</h2>
 <p>I used FiveThirtyEight’s Election_deniers data to compare the likelihood of a Republican Congressional Candidate in the 2020 election to present a decisive opinion on the legitimacy of the 2020 election and their incumbency status. I hypothesized that incumbents would be more likely to decisively express a polarizing opinion because they enjoy a greater sense of job security relative to their non-incumbent counterparts.</p>
-<p>I found that incumbents are significantly more likely to present decisive viewpoints on the 2020 election as 73.91304% of incumbents expressed decisive opinions while only 34.16667% of non-incumbents demonstrated decisiveness. Additionally, I found these findings statistically significant after evaluating 1000 bootstrap samples to determine that the average treatment effect was above zero with 95% confidence.</p>
+<p>I found that incumbents are significantly more likely to present decisive viewpoints on the 2020 election as 73.91304% of incumbents expressed decisive opinions while only 34.16667% of non-incumbents demonstrated decisiveness. Additionally, I found these findings statistically significant after evaluating 1000 bootstrap samples to determine that the average treatment effect was above zero with 99% confidence.</p>
 <p>Despite these findings, I cannot use the results to determine causality or support the reasoning that led to my hypothesis because of the existing confounding variables that may have impacted the results. For example, I did not control the geographic distribution in relation to political party or extremism, or any factors that could also explain rates of congressional representative turnover. For example, it is possible that my data was skewed by the possibility that non-swing states that are more definitively blue or red, such as California and Alabama, had a higher rate of incumbency in addition to a higher rate of political decisiveness, but not for reasons explained in my evaluation of incumbency of 2020 Election Validity decisiveness. In a more thorough study, it is important to control more variables, such as geographic distribution, and investigate patterns of incumbency to determine if they had a significant impact on incumbency and political decisiveness.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
